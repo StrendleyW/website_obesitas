@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediksi Obesitas</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 30px auto; }
+        h1 { text-align: center; margin-bottom: 10px; }
+        p.desc { text-align: center; margin-bottom: 30px; color: #555; }
+
+        form {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px 24px;
+        }
+
+        label { display: block; font-weight: bold; margin-bottom: 4px; }
+        input, select, button {
+            width: 100%;
+            padding: 6px 8px;
+            box-sizing: border-box;
+        }
+
+        .full-width { grid-column: 1 / 3; }
+
+        .result {
+            margin-top: 24px;
+            padding: 14px;
+            border-radius: 6px;
+        }
+        .ok { background-color: #e5ffe5; color: #0b6b0b; }
+        .error { background-color: #ffe5e5; color: #8b0000; }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+        button[type="submit"] {
+            background-color: #2563eb;
+            color: white;
+            font-weight: 600;
+        }
+        button[type="submit"]:hover {
+            background-color: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prediksi Obesitas</h1>
+    <p class="desc">Isi data berikut, lalu sistem akan memprediksi kategori obesitas berdasarkan model yang sudah dilatih.</p>
+
+    <form method="POST">
+        <!-- KATEGORIKAL -->
+        <div>
+            <label for="Gender">Gender</label>
+            <select name="Gender" id="Gender">
+                <option value="Male">Laki-laki</option>
+                <option value="Female">Perempuan</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="family_history_with_overweight">Riwayat Keluarga Obesitas</label>
+            <select name="family_history_with_overweight" id="family_history_with_overweight">
+                <option value="yes">Ya</option>
+                <option value="no">Tidak</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="FAVC">Sering makan makanan tinggi kalori (FAVC)</label>
+            <select name="FAVC" id="FAVC">
+                <option value="yes">Ya</option>
+                <option value="no">Tidak</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="CAEC">Makan di luar waktu makan utama (CAEC)</label>
+            <select name="CAEC" id="CAEC">
+                <option value="no">Tidak Pernah</option>
+                <option value="Sometimes">Kadang-kadang</option>
+                <option value="Frequently">Sering</option>
+                <option value="Always">Selalu</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="SMOKE">Merokok</label>
+            <select name="SMOKE" id="SMOKE">
+                <option value="no">Tidak</option>
+                <option value="yes">Ya</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="SCC">Memantau konsumsi kalori (SCC)</label>
+            <select name="SCC" id="SCC">
+                <option value="no">Tidak</option>
+                <option value="yes">Ya</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="CALC">Konsumsi alkohol (CALC)</label>
+            <select name="CALC" id="CALC">
+                <option value="no">Tidak Pernah</option>
+                <option value="Sometimes">Kadang-kadang</option>
+                <option value="Frequently">Sering</option>
+                <option value="Always">Selalu</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="MTRANS">Transportasi utama (MTRANS)</label>
+            <select name="MTRANS" id="MTRANS">
+                <option value="Public_Transportation">Transportasi umum</option>
+                <option value="Automobile">Mobil</option>
+                <option value="Walking">Jalan kaki</option>
+                <option value="Bike">Sepeda</option>
+                <option value="Motorbike">Motor</option>
+            </select>
+        </div>
+
+        <!-- NUMERIK -->
+        <div>
+            <label for="Age">Umur (tahun)</label>
+            <input type="number" name="Age" id="Age" step="1" min="10" max="80" required>
+        </div>
+
+        <div>
+            <label for="Height">Tinggi Badan (meter)</label>
+            <input type="number" name="Height" id="Height" step="0.01" min="1.2" max="2.2" required>
+        </div>
+
+        <div>
+            <label for="Weight">Berat Badan (kg)</label>
+            <input type="number" name="Weight" id="Weight" step="0.1" min="30" max="200" required>
+        </div>
+
+        <div>
+            <label for="FCVC">Frekuensi konsumsi sayur (FCVC, 1.0 - 3.0)</label>
+            <input type="number" name="FCVC" id="FCVC" step="0.1" min="1" max="3" required>
+        </div>
+
+        <div>
+            <label for="NCP">Jumlah makan utama per hari (NCP, 1 - 4)</label>
+            <input type="number" name="NCP" id="NCP" step="1" min="1" max="4" required>
+        </div>
+
+        <div>
+            <label for="CH2O">Konsumsi air per hari (CH2O, 1.0 - 3.0)</label>
+            <input type="number" name="CH2O" id="CH2O" step="0.1" min="1" max="3" required>
+        </div>
+
+        <div>
+            <label for="FAF">Frekuensi aktivitas fisik per minggu (FAF, 0.0 - 3.0)</label>
+            <input type="number" name="FAF" id="FAF" step="0.1" min="0" max="3" required>
+        </div>
+
+        <div>
+            <label for="TUE">Waktu penggunaan gawai per hari (TUE, 0.0 - 2.0)</label>
+            <input type="number" name="TUE" id="TUE" step="0.1" min="0" max="2" required>
+        </div>
+
+        <div class="full-width">
+            <button type="submit">Prediksi</button>
+        </div>
+    </form>
+
+    {% if prediction %}
+        <div class="result ok">
+            <strong>Hasil Prediksi:</strong> {{ prediction }}
+        </div>
+    {% endif %}
+
+    {% if error %}
+        <div class="result error">
+            <strong>Terjadi Error:</strong> {{ error }}
+        </div>
+    {% endif %}
+</body>
+</html>
